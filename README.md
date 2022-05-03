@@ -4,11 +4,17 @@
 With a hex editor, you can manually create a bitmap (.bmp) file by typing in the bytes. Using either a downloaded hex editor or one you find online, create a bitmap using these bytes:
 42 4D 4C 00 00 00 00 00 00 00 1A 00 00 00 0C 00 00 00 04 00 04 00 01 00 18 00 00 00 FF FF FF FF 00 00 FF FF FF FF FF FF FF 00 00 00 FF FF FF 00 00 00 FF 00 00 FF FF FF FF 00 00 FF FF FF FF FF FF 00 00 00 FF FF FF 00 00 00
 If you save your hex file as a .bmp file, you can view your image. It will only be 4x4 pixels large, so you will need to zoom in. Figure 1 shows the expected image:
+
+<img width="341" alt="Screenshot 2022-05-03 at 9 29 18 PM" src="https://user-images.githubusercontent.com/29403707/166490356-4d6c7130-af43-4aa6-abfa-ebc769e9ceac.png">
  
 From the command line (not from keyboard input), you will receive a string of 12 hexadecimal digits (e.g., B1 FF FF CC 98 80 09 EA 04 48 7E C9). Since our image has 16 pixels, there are 3*16 = 48 color bytes. Hiding 2 bits per byte allows us to hide 48 * 2 = 96 bits / 8 bits/byte = 12 bytes of data.
 Modify your image to hide those 12 bytes in the color bytes and print out the result in the same format as the sample code does. For example, suppose the first byte is B1. In binary, this is 10110001. We hide the values using the XOR operator. The first 4 color bytes in the above image are 00 00 FF FF (you must start after the header ends — note that the header ends at
 3
 0x00, not 0x18). In binary, these bytes are 00000000 00000000 11111111 11111111. Taking two bits at a time, we XOR with each byte. We start with bits 10, then 11, 00, and finally 01. Thus, our 4 bytes become 00000010 00000011 11111111 11111110.
+
+Figure 2 shows what this bitmap looks like. Despite hiding a secret message in it, the change is impossible to see:
+<img width="346" alt="Screenshot 2022-05-03 at 9 29 56 PM" src="https://user-images.githubusercontent.com/29403707/166490487-6901d37c-2e8b-4f65-aa48-f170a2944f63.png">
+
 
 # CryptAnalysis
 
